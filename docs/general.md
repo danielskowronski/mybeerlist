@@ -1,0 +1,3 @@
+## features
+  - user registration, login, logout...
+  - user tracking records: beer name, beer link (if any; via http://ocen-piwo.pl/Mapa_strony.html) , date, rating, where, with who (currently just text), photos (urls), notes
