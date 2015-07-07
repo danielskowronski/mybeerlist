@@ -10,6 +10,7 @@
 
     function queryBeers() {
         var beerQuery=$("#beerQueryInput").val();
+        $("#beerSearchResults").html("<img src='/files/loader.gif' />");
         $.get(
             beerListProviderURL+"?name="+beerQuery,
             function (data) {
