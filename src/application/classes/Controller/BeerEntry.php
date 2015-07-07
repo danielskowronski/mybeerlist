@@ -16,7 +16,7 @@ class Controller_BeerEntry extends Controller {
             ->find_all();
 
         $view->debug=Auth::instance()->get_user()->id;
-
+        $view->page_title = "Moja lista piw";
         $this->response->body($view);
     }
     public function action_edit()
@@ -31,11 +31,25 @@ class Controller_BeerEntry extends Controller {
             $beerentry->userId=Auth::instance()->get_user()->id;
             $beerentry->save();
 
-            $this->redirect('BeerEntry/list');
+            $this->redirect('BeerEntry/show/'.$id);
         }
 
         $view = View::factory('beerentry/edit');
         $view->beerentry = $beerentry;
+        $view->page_title = "Edytuj wpis";
+
+        $this->response->body($view);
+    }
+    public function action_show()
+    {
+        Helper_User::checkAuth($this);
+
+        $id = $this->request->param('id');
+        $beerentry = ORM::factory('BeerEntry', $id);
+
+        $view = View::factory('beerentry/show');
+        $view->beer = $beerentry;
+        $view->page_title = "Pokaż wpis";
 
         $this->response->body($view);
     }
