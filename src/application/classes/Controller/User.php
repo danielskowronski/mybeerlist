@@ -4,6 +4,7 @@ class Controller_User extends Controller_Template {
 
     public function action_index()
     {
+
         $this->template->content = View::factory('user/info')
             ->bind('user', $user);
 
@@ -41,12 +42,12 @@ class Controller_User extends Controller_Template {
                 $_POST = array();
 
                 // Set success message
-                $message = "You have added user '{$user->username}' to the database";
+                $message = "Rejestracja użytkownika '{$user->username}' powiodła się. Sprawdź skrzynkę e-mail celem aktywacji konta.";
 
             } catch (ORM_Validation_Exception $e) {
 
                 // Set failure message
-                $message = 'There were errors, please see form below.';
+                $message = 'Wystąpiły błędy:';
 
                 // Set errors using custom messages
                 $errors = $e->errors('models');
@@ -72,7 +73,7 @@ class Controller_User extends Controller_Template {
             }
             else
             {
-                $message = 'Login failed';
+                $message = 'Logowanie nie powiodło się';
             }
         }
     }
