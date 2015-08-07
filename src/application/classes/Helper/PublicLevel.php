@@ -2,7 +2,23 @@
 
 class Helper_PublicLevel extends Controller
 {
-    static function encodePublicLevel($publicityArray)
+    public static function encodePublicLevel($publicityArray)
+    {
+        $encoded = 0;
+        foreach ($publicityArray as $key => $value) {
+
+            if ($value=='name'		) $encoded+=1;
+            if ($value=='rating'	) $encoded+=2;
+            if ($value=='photo'		) $encoded+=4;
+            if ($value=='date'		) $encoded+=8;
+            if ($value=='location'	) $encoded+=16;
+            if ($value=='companions') $encoded+=32;
+            if ($value=='notes'		) $encoded+=64;
+        }
+
+        return $encoded;
+    }
+    public static function encodePublicLevel2($publicityArray)
     {
         $encoded = 0;
 
@@ -22,7 +38,7 @@ class Helper_PublicLevel extends Controller
         $encoded+=4096;
         return decbin($encoded)[strlen(decbin($encoded))-$num-1];
     }
-    static function decodePublicLevel($encodedLevel)
+    public static function decodePublicLevel($encodedLevel)
     {
         $publicityArray=array();
         $publicityArray['name']=false;
@@ -44,8 +60,8 @@ class Helper_PublicLevel extends Controller
         return $publicityArray;
 
     }
-    static $translations = {}
-    static function translateRawPublicityName($input){
-
+    private static $translations = array("name"=>"nazwa", "rating"=>"ocena", "photo"=>"zdjęcie", "date"=>"data", "location"=>"lokal", "companions"=>"towarzystwo", "notes"=>"notatki");
+    public static function translateRawPublicityName($input){
+        return Helper_PublicLevel::$translations[$input];
     }
 }
