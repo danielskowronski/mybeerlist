@@ -4,14 +4,9 @@ class Controller_User extends Controller_Template {
 
     public function action_index()
     {
-
         $this->template->content = View::factory('user/info')
             ->bind('user', $user);
-
-        // Load the user information
         $user = Auth::instance()->get_user();
-
-        // if a user is not logged in, redirect to login page
         if (!$user)
         {
             Request::current()->redirect('user/login');
@@ -27,34 +22,65 @@ class Controller_User extends Controller_Template {
         if (HTTP_Request::POST == $this->request->method())
         {
             try {
-
-                // Create the user using form values
                 $user = ORM::factory('User')->create_user($this->request->post(), array(
                     'username',
                     'password',
                     'email'
                 ));
-
-                // Grant user login role
                 $user->add('roles', ORM::factory('Role', array('name' => 'login')));
-
-                // Reset values so form is not sticky
                 $_POST = array();
-
-                // Set success message
                 $message = "Rejestracja użytkownika '{$user->username}' powiodła się. Sprawdź skrzynkę e-mail celem aktywacji konta.";
 
-            } catch (ORM_Validation_Exception $e) {
-
-                // Set failure message
+            }
+            catch (ORM_Validation_Exception $e)
+            {
                 $message = 'Wystąpiły błędy:';
-
-                // Set errors using custom messages
                 $errors = $e->errors('models');
             }
         }
     }
+    public function action_edit()
+    {
+        $this->template->content = View::factory('user/edit')
+            ->bind('user', $user);
 
+        Helper_User::checkAuth($this);
+
+        $uid = Auth::instance()->get_user()->id;
+        $user = Auth::instance()->get_user();
+        $userDb = ORM::factory('User', $uid);
+
+        if($this->request->method() == 'POST')
+        {
+            $_POST['publicLevel']=Helper_PublicLevel::encodePublicLevel($_POST['publicLevel']);
+            $userDb->values($_POST);
+            $userDb->id = $uid;
+            $userDb->save();
+            //$user->
+
+            $this->redirect('user/');
+        }
+    }
+    public function action_password()
+    {
+        $this->template->content = View::factory('user/password');
+        $msg =  "Stare hasło się nie zgadza!";
+        Helper_User::checkAuth($this);
+
+        if($this->request->method() == 'POST')
+        {
+            $user = Session::instance()->get('auth_user');
+            if ($user->password == Auth::instance()->hash($_POST['oldpass'])) {
+                $user->password = $_POST['newpass1'];
+                $user->save();
+                $this->redirect('user/');
+            }
+            else{
+                $this->template->content->bind("message", $msg);
+            }
+
+        }
+    }
     public function action_login()
     {
         $this->template->content = View::factory('user/login')
@@ -62,11 +88,9 @@ class Controller_User extends Controller_Template {
 
         if (HTTP_Request::POST == $this->request->method())
         {
-            // Attempt to login user
             $remember = array_key_exists('remember', $this->request->post()) ? (bool) $this->request->post('remember') : FALSE;
             $user = Auth::instance()->login($this->request->post('username'), $this->request->post('password'), $remember);
 
-            // If successful, redirect user
             if ($user)
             {
                 Request::current()->redirect('user/index');
@@ -80,10 +104,7 @@ class Controller_User extends Controller_Template {
 
     public function action_logout()
     {
-        // Log user out
         Auth::instance()->logout();
-
-        // Redirect to login page
         Request::current()->redirect('user/login');
     }
 

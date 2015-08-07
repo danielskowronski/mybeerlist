@@ -10,12 +10,13 @@
     <li>Ustawienia publikowania:<br />
 
         <?php foreach (Helper_PublicLevel::decodePublicLevel($user->publicLevel) as $key => $value): ?>
-            <?= $key; ?>: <?= ($value===true) ? "&#10004" : "&#10006" ?><br />
+            <?= Helper_PublicLevel::translateRawPublicityName($key); ?>: <?= ($value===true) ? "&#10004" : "&#10006" ?><br />
         <?php endforeach; ?>
     </li>
 </ul>
 
 <?= HTML::anchor('user/edit', 'Zmiana ustawień'); ?><br />
+<?= HTML::anchor('user/password', 'Zmiana hasła'); ?><br />
 <?= HTML::anchor('user/logout', 'Wyloguj się'); ?>
 
 <?php require(dirname(__FILE__)."/../_skel/footer.php"); ?>

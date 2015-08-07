@@ -1,0 +1,7 @@
+commity:
+01 ustawienia usera działające
+02 publikowanie list
+03 routes
+04 pliki
+05 mailowa weryfikacja
+06 ludzkie ostylowanie
