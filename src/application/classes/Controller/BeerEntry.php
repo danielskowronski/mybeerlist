@@ -31,7 +31,7 @@ class Controller_BeerEntry extends Controller {
             $beerentry->userId=Auth::instance()->get_user()->id;
             $beerentry->save();
 
-            $this->redirect('BeerEntry/show/'.$beerentry->id);
+            $this->redirect('BeerEntry/show/'.$beerentry->id );
         }
 
         $view = View::factory('beerentry/edit');

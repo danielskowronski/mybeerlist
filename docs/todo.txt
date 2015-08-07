@@ -3,13 +3,14 @@ commity:
 >> publikowanie list
 >> routes
 04 pliki
-05 mailowa weryfikacja
+>> mailowa weryfikacja
 06 ludzkie ostylowanie
 07 znajomość - full disclosure
-08 lepsze pokazywanie fotek
+>> lepsze pokazywanie fotek
 09 polskie literki w ocen-piwo query
 >> edycja wpisów się psuje!
 >> kasata wpisów?
 >> update struktur sql!
 >> po stworzeniu rekordu powinno redirectnąć do niego!
 14 lepsze redirecty z funkcji (można wywołać inną funkcję zamiast $this->redirect)
+15 reset hasła

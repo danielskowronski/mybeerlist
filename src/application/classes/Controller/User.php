@@ -21,16 +21,24 @@ class Controller_User extends Controller_Template {
 
         if (HTTP_Request::POST == $this->request->method())
         {
+            $token = Helper_Random::randomString(16);
             try {
                 $user = ORM::factory('User')->create_user($this->request->post(), array(
                     'username',
                     'password',
                     'email'
                 ));
+                $user->token = $token;$user->save();
                 $user->add('roles', ORM::factory('Role', array('name' => 'login')));
-                $_POST = array();
-                $message = "Rejestracja użytkownika '{$user->username}' powiodła się. Sprawdź skrzynkę e-mail celem aktywacji konta.";
 
+                $message = "Rejestracja użytkownika '{$user->username}' powiodła się. Sprawdź skrzynkę e-mail celem aktywacji konta.";
+                $_POST = array();
+
+                Helper_Email::sendRegistrationEmail($user->email, $user->username, $token);
+
+                $this->template->content = View::factory('user/login')
+                    ->bind('errors', $errors)
+                    ->bind('message', $message);
             }
             catch (ORM_Validation_Exception $e)
             {
@@ -38,6 +46,30 @@ class Controller_User extends Controller_Template {
                 $errors = $e->errors('models');
             }
         }
+    }
+    public function action_activate()
+    {
+        $this->template->content = View::factory('user/activate')
+            ->bind('message', $message);
+
+        $token = $this->request->param('id');
+        $user = ORM::factory('User')
+            ->where("token","=",$token)
+            ->find();
+        if ($user)
+        {
+            $user->token="";
+            $user->update();
+            $message="Aktywacja konta OK. Zaloguj się.";
+            $this->template->content = View::factory('user/login')
+                ->bind('errors', $errors)
+                ->bind('message', $message);
+        }
+        else
+        {
+            $message = "Nie znaleziono takiego tokena. Spróbuj się zalogować. TODO: jeśli nie masz wiadomości kliknij tutaj"  ;
+        }
+
     }
     public function action_edit()
     {
@@ -93,7 +125,15 @@ class Controller_User extends Controller_Template {
 
             if ($user)
             {
-                Request::current()->redirect('user/index');
+                if(Auth::instance()->get_user()->token!="")
+                {
+                    $message = 'Konto wymaga aktywacji - sprawdź pocztę. TODO: jeśli nie masz wiadomości kliknij tutaj';
+                    Auth::instance()->login("bla","bla");
+                }
+                else
+                {
+                    Request::current()->redirect('user/index');
+                }
             }
             else
             {

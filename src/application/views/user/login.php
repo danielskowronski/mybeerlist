@@ -1,4 +1,6 @@
-<h2>Login</h2>
+<?php $page_title="Logowanie"; require(dirname(__FILE__)."/../_skel/header.php"); ?>
+
+<h2>Logowanie</h2>
 <? if ($message) : ?>
     <h3 class="message">
         <?= $message; ?>
@@ -7,18 +9,20 @@
 
 <?= Form::open('user/login'); ?>
 
-<?= Form::label('username', 'Username'); ?>
+<?= Form::label('username', 'Nazwa użytkownika'); ?>
 <?= Form::input('username', HTML::chars(Arr::get($_POST, 'username'))); ?>
 
-<?= Form::label('password', 'Password'); ?>
+<?= Form::label('password', 'Hasło'); ?>
 <?= Form::password('password'); ?>
 
-<?= Form::label('remember', 'Remember Me'); ?>
+<?= Form::label('remember', 'Pamiętaj mnie'); ?>
 <?= Form::checkbox('remember'); ?>
 
-<p>(Remember Me keeps you logged in for 2 weeks)</p>
+<p>(opcja Pamiętaj mnie utrzymuje sesję 2 tygodnie)</p>
 
 <?= Form::submit('login', 'Login'); ?>
 <?= Form::close(); ?>
 
-<p>Or <?= HTML::anchor('user/create', 'create a new account'); ?></p>
+<p>Lub <?= HTML::anchor('user/create', 'stwórz nowe konto'); ?>. </p>
+
+<?php require(dirname(__FILE__)."/../_skel/footer.php"); ?>
