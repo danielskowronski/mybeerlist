@@ -4,7 +4,7 @@ commity:
 >> routes
 04 pliki
 >> mailowa weryfikacja
-06 ludzkie ostylowanie
+06 ludzkie ostylowanie (tabel głównie)
 07 znajomość - full disclosure
 >> lepsze pokazywanie fotek
 09 polskie literki w ocen-piwo query

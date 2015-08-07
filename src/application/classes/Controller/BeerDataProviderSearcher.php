@@ -5,9 +5,9 @@ class Controller_BeerDataProviderSearcher extends Controller {
     public function action_index()
     {
         $query=$this->request->query('name');
-        $domain = "http://ocen-piwo.pl";
-        $listUrl= "Mapa_strony.html";
-        $content = file_get_contents($domain."/".$listUrl);
+        $domain = "http://ocen-piwo.pl/";
+        //$content = file_get_contents("http://ocen-piwo.pl/Mapa_strony.html");
+        $content = file_get_contents("http://$_SERVER[SERVER_NAME]/files/Mapa_strony.html");
 
         $regex="/<a href=\'([^\']*?)\'\s".
             "id='[^\']*?\'\s".
