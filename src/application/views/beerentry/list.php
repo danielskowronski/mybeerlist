@@ -1,13 +1,13 @@
 <?php require(dirname(__FILE__)."/../_skel/header.php"); ?>
 
-<style>
-    #list td, #list td{
-        border: 1px solid #000000;
-        padding: 2px;
-    }
-</style>
+    <style>
+        #list td, #list td{
+            border: 1px solid #000000;
+            padding: 2px;
+        }
+    </style>
 
-<h1>Moja lista piw</h1>
+    <h1>Moja lista piw</h1>
 <?php echo HTML::anchor('BeerEntry/edit', 'Dodaj nowy'); ?><br/>
     <br />
     <table id="list">

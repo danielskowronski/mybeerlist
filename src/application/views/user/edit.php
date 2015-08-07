@@ -4,6 +4,9 @@
 
 <?php echo Form::open('user/edit'); ?>
 
+<?php echo Form::label('username', "Nazwa użytkownika"); ?>
+<?php echo Form::input('username', $user->username); ?><br />
+
 <?php echo Form::label('email', "Email"); ?>
 <?php echo Form::input('email', $user->email); ?><br />
 

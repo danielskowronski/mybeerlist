@@ -53,6 +53,13 @@ class Controller_BeerEntry extends Controller {
 
         $this->response->body($view);
     }
+    public function action_delete()
+    {
+        Helper_User::checkAuth($this);
 
+        $id = $this->request->param('id');
+        $beerentry = ORM::factory('BeerEntry', $id)->delete();
+        $this->redirect('BeerEntry/list');
+    }
 
-} // End Welcome
+}
