@@ -1,14 +1,14 @@
 commity:
 >> ustawienia usera działające -> >> dodaj zmianę username
 >> publikowanie list
-03 routes
+>> routes
 04 pliki
 05 mailowa weryfikacja
 06 ludzkie ostylowanie
 07 znajomość - full disclosure
 08 lepsze pokazywanie fotek
 09 polskie literki w ocen-piwo query
-10 edycja wpisów się psuje!
+>> edycja wpisów się psuje!
 >> kasata wpisów?
-12 update struktur sql!
-13 po stworzeniu rekordu powinno redirectnąć do niego!
+>> update struktur sql!
+>> po stworzeniu rekordu powinno redirectnąć do niego!

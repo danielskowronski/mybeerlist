@@ -19,10 +19,28 @@ class Controller_BeerList extends Controller {
     public function action_show()
     {
         $id = $this->request->param('id');
+        //var_dump($id);
+        if (!isset($id)){
+            $userEntity = ORM::factory('User')
+                ->where("username","=",$this->request->param('user'))
+                ->find();
+            $id = $userEntity->id;
+        }
+        else
+        {
+            $userEntity = ORM::factory('User')
+                ->where("id","=",$this->request->param('id'))
+                ->find();
+        }
+        if (Auth::instance()->logged_in() && $id==Auth::instance()->get_user()->id)
+        {
+            $this->redirect('BeerEntry/list');
+        }
 
-        $userEntity = ORM::factory('User')
-            ->where("id","=",$id)
-            ->find();
+
+
+
+
 
         if ($userEntity->publicLevel<=0) {
             $this->action_list();

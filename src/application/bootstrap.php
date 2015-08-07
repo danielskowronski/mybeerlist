@@ -144,6 +144,34 @@ Cookie::$salt = "change me on production senpai";
  * Set the routes. Each route must have a minimum of a name, a URI and a set of
  * defaults for the URI.
  */
+
+Route::set('beerListByUser', 'beerlist(/<user>)')
+	->defaults(array(
+		'controller' => 'BeerList',
+		'action'     => 'show',
+	));
+Route::set('myList', 'mylist')
+	->defaults(array(
+		'controller' => 'BeerEntry',
+		'action'     => 'list',
+	));
+Route::set('publicLists', 'public')
+	->defaults(array(
+		'controller' => 'BeerList',
+		'action'     => 'list',
+	));
+
+Route::set('static-about', 'about')
+	->defaults(array(
+		'controller' => 'StaticPages',
+		'action'     => 'about',
+	));
+Route::set('static-index', '')
+	->defaults(array(
+		'controller' => 'StaticPages',
+		'action'     => 'index',
+	));
+
 Route::set('default', '(<controller>(/<action>(/<id>)))')
 	->defaults(array(
 		'controller' => 'welcome',
