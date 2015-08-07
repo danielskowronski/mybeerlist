@@ -13,7 +13,7 @@ class Controller_BeerDataProviderSearcher extends Controller {
             "id='[^\']*?\'\s".
             "><b>".
             "([^\']*?".$query."[^\']*?)".
-            "<\/b>/i";
+            "<\/b>/iu";
 
         $cnt = preg_match_all(
             $regex,
