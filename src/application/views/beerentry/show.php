@@ -1,9 +1,13 @@
 <?php require(dirname(__FILE__)."/../_skel/header.php"); ?>
 
+<link rel="stylesheet" type="text/css" href="/files/photoShower/style.css">
+<script src="/files/photoShower/script.js"></script>
+<div id="photoCanvas"></div>
+
 <style>
     .picrel{
-        max-width: 600px;
-        max-width: 400px;
+        max-width: 300px;
+        max-width: 200px;
     }
 </style>
 
@@ -25,7 +29,7 @@ Pic related:<br />
     $picrel = preg_split("/\s/", $beer->photosUrls);
     if (count($picrel)==0) echo "---";
     foreach ($picrel as $photo) {
-        echo "<img src='$photo' class='picrel'/><br />";
+        echo "<img onClick='javascript:showPhoto(\"$photo\")' src='$photo' class='picrel clicker'/><br />";
     }
 ?>
 Notatki:<br />

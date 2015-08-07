@@ -12,3 +12,4 @@ commity:
 >> kasata wpisów?
 >> update struktur sql!
 >> po stworzeniu rekordu powinno redirectnąć do niego!
+14 lepsze redirecty z funkcji (można wywołać inną funkcję zamiast $this->redirect)

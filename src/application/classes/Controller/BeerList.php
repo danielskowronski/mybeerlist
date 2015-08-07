@@ -37,15 +37,11 @@ class Controller_BeerList extends Controller {
             $this->redirect('BeerEntry/list');
         }
 
-
-
-
-
-
         if ($userEntity->publicLevel<=0) {
             $this->action_list();
             return;
         }
+        //var_dump($userEntity);die();
 
         $view = View::factory('beerlist/show');
         $view->beers = ORM::factory('BeerEntry')

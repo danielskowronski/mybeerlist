@@ -7,6 +7,10 @@
         }
     </style>
 
+    <link rel="stylesheet" type="text/css" href="/files/photoShower/style.css">
+    <script src="/files/photoShower/script.js"></script>
+    <div id="photoCanvas"></div>
+
     <h1>Lista piw użytkownika <?= $userEntity->username; ?></h1>
     <br />
     <table id="list">
@@ -17,8 +21,7 @@
             <?php endforeach; ?>
         </tr>
 
-        <?php foreach($beers as $beer): ?><?php
-//var_dump($beer);die(); ?>
+        <?php foreach($beers as $beer): ?>
             <tr>
                 <?php foreach(Helper_PublicLevel::decodePublicLevel($userEntity->publicLevel) as $key => $value): ?>
                     <?php if ($value==false) continue; ?>
@@ -26,7 +29,7 @@
                         <td><?php echo HTML::anchor($beer->beerLink, $beer->beerName) ; ?></td>
                     <?php continue; endif; ?>
                     <?php if ($key=="photo"): ?>
-                        <td><?php $i=0; if ($beer->photosUrls!="") foreach(explode("\n", $beer->photosUrls) as $photo) { echo HTML::anchor($photo, "[".++$i."] "); } ?></td>
+                        <td><?php $i=0; if ($beer->photosUrls!="") foreach(explode("\n", $beer->photosUrls) as $photo) { echo "<a class='clicker' onClick='showPhoto(\"$photo\")'>[".++$i."]</a>"; } ?></td>
                         <?php continue; endif; ?>
                     <td><?php echo $beer->$key; ?></td>
                 <?php endforeach; ?>

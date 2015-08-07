@@ -1,0 +1,14 @@
+#photoCanvas{
+    display: none;
+    background: pink;
+    position: absolute;
+    min-width: 1px;
+    min-height: 1px;
+    top: 25%;
+    left: 25%;
+}
+#photoCanvasImg{
+    max-width: 800px;
+    max-height: 800px;
+    position: absolute;
+}
