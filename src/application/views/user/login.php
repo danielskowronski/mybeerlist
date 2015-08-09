@@ -23,6 +23,7 @@
 <?= Form::submit('login', 'Login'); ?>
 <?= Form::close(); ?>
 
+<p>Nie pamiętasz hasła? <?= HTML::anchor('user/reset', 'Zresetuj je'); ?>. </p>
 <p>Lub <?= HTML::anchor('user/create', 'stwórz nowe konto'); ?>. </p>
 
 <?php require(dirname(__FILE__)."/../_skel/footer.php"); ?>

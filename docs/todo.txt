@@ -7,10 +7,13 @@ commity:
 06 ludzkie ostylowanie (tabel głównie)
 07 znajomość - full disclosure
 >> lepsze pokazywanie fotek
-09 polskie literki w ocen-piwo query
+>> polskie literki w ocen-piwo query
 >> edycja wpisów się psuje!
 >> kasata wpisów?
 >> update struktur sql!
 >> po stworzeniu rekordu powinno redirectnąć do niego!
 14 lepsze redirecty z funkcji (można wywołać inną funkcję zamiast $this->redirect)
-15 reset hasła
+>> reset hasła
+>> $_POST[] pewnie się da jakoś obiektowo zrobić
+>> if($user) się wali na nullu
+18 tematy maili tez powinny mieć utf8

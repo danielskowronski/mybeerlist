@@ -18,4 +18,20 @@ class Helper_Email extends Controller
 
         mail($email, $subject, $body, $headers);
     }
+    public static function sendPasswdResetEmail($email, $username, $token)
+    {
+        $body =
+            "Witaj $username!\r\n".
+            "Ktoś poprosił o reset hasła Twojego konta. Jeśli to nie Ty - możesz zignorować tą wiadomość.\r\n".
+            "Aby kontynuować wystarczy kliknąć w link http://$_SERVER[SERVER_NAME]/user/reset/$token\r\n".
+            "\r\n".
+            "Ekipa MBL";
+        $subject = "Reset hasła MBL";
+
+        $headers = 'From: webmaster@mbl.dsinf.net' . "\r\n" .
+            'Reply-To: webmaster@dsinf.net' . "\r\n" .
+            'X-Mailer: PHP/' . phpversion();
+
+        mail($email, $subject, $body, $headers);
+    }
 }

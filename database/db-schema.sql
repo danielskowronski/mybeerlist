@@ -18,4 +18,5 @@ ALTER TABLE `beerentry`
 MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1 ;
 
 
-ALTER TABLE `users` ADD `token` TEXT NOT NULL ;
+ALTER TABLE `users` ADD `register_token` TEXT NOT NULL ;
+ALTER TABLE `users` ADD `reset_token` TEXT NOT NULL ;
