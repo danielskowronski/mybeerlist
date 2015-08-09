@@ -11,7 +11,7 @@
 <?php echo Form::label('email', "Email"); ?>
 <?php echo Form::input('email'); ?><br />
 
-<?php echo Form::submit('save', 'Resetuj', array("onClick"=>"return validatePassword();")); ?><br/>
+<?php echo Form::submit('save', 'Resetuj'); ?><br/>
 
 <?php echo Form::close(); ?>
 

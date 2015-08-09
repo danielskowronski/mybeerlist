@@ -16,7 +16,7 @@ class Helper_Email extends Controller
             'Reply-To: webmaster@dsinf.net' . "\r\n" .
             'X-Mailer: PHP/' . phpversion();
 
-        mail($email, $subject, $body, $headers);
+        mail($email, mb_encode_mimeheader($subject,"UTF-8"), $body, $headers);
     }
     public static function sendPasswdResetEmail($email, $username, $token)
     {
@@ -32,6 +32,7 @@ class Helper_Email extends Controller
             'Reply-To: webmaster@dsinf.net' . "\r\n" .
             'X-Mailer: PHP/' . phpversion();
 
-        mail($email, $subject, $body, $headers);
+        mail($email, mb_encode_mimeheader($subject,"UTF-8"), $body, $headers);
     }
+
 }

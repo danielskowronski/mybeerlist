@@ -4,14 +4,11 @@ class Controller_User extends Controller_Template {
 
     public function action_index()
     {
+        Helper_User::checkAuth($this);
+
+        $user = Auth::instance()->get_user();
         $this->template->content = View::factory('user/info')
             ->bind('user', $user);
-        $user = Auth::instance()->get_user();
-
-        if (!$user)
-        {
-            Request::current()->redirect('user/login');
-        }
     }
 
     public function action_create()
@@ -33,7 +30,8 @@ class Controller_User extends Controller_Template {
                 $user->register_token = $token; $user->save();
                 $user->add('roles', ORM::factory('Role', array('name' => 'login')));
 
-                $message = "Rejestracja użytkownika '{$user->username}' powiodła się. Sprawdź skrzynkę e-mail celem aktywacji konta.";
+                $message = "Rejestracja użytkownika '{$user->username}' powiodła się. Sprawdź skrzynkę e-mail celem aktywacji konta.<br />".
+                    "Jeśli nie możesz znaleźć wiadomości - sprawdź folder SPAM lub ".HTML::anchor('user/resendVerifMail', 'poproś o ponowne jej wysłanie').".";
                 $_POST = array();
 
                 Helper_Email::sendRegistrationEmail($user->email, $user->username, $token);
@@ -70,7 +68,8 @@ class Controller_User extends Controller_Template {
         }
         else
         {
-            $message = "Nie znaleziono takiego tokena. Spróbuj się zalogować. TODO: jeśli nie masz wiadomości kliknij tutaj"  ;
+            $message = "Nie znaleziono takiego tokena. Spróbuj się zalogować.<br />".
+                "Jeśli nie możesz znaleźć wiadomości - sprawdź folder SPAM lub ".HTML::anchor('user/resendVerifMail', 'poproś o ponowne jej wysłanie').".";
         }
 
     }
@@ -83,12 +82,13 @@ class Controller_User extends Controller_Template {
         Helper_User::checkAuth($this);
 
         $uid = Auth::instance()->get_user()->id;
+        $user = Auth::instance()->get_user(); //for template->content binding - do not delete - phpstorm cannot track pass-by-reference :(
         $userDb = ORM::factory('User', $uid);
 
         if($this->request->method() == 'POST')
         {
             $_POST['publicLevel']=Helper_PublicLevel::encodePublicLevel($_POST['publicLevel']);
-            $userDb->values($this->request->post());
+            $userDb->values($_POST); //not OOP due to hack above - TODO
             $userDb->id = $uid;
             $userDb->save();
 
@@ -106,7 +106,7 @@ class Controller_User extends Controller_Template {
         {
             $user = Session::instance()->get('auth_user');
             if ($user->password == Auth::instance()->hash($this->request->post('oldpass'))) {
-                $user->password = $this->request->post('newpass1');
+                $user->password = $this->request->post('password');
                 $user->save();
                 $this->redirect('user/');
             }
@@ -131,7 +131,6 @@ class Controller_User extends Controller_Template {
             {
                 $user = ORM::factory('User')
                     ->where("email","=",$this->request->post('email'))
-                    ->where("username","=",$this->request->post('login'))
                     ->find();
                 if ($user->id === null)
                 {
@@ -140,9 +139,9 @@ class Controller_User extends Controller_Template {
                 else
                 {
                     $newToken = Helper_Random::randomString(16);
-                    $user->reset_token = $newToken;
+                    $user->register_token = $newToken;
                     $user->save();
-                    Helper_Email::sendPasswdResetEmail($user->email, $user->username, $newToken);
+                    Helper_Email::sendRegistrationEmail($user->email, $user->username, $newToken);
                     $msg = "Dane OK. Sprawdź skrzynkę mailową.";
                 }
                 $this->template->content
@@ -159,12 +158,12 @@ class Controller_User extends Controller_Template {
             {
                 $user = ORM::factory('User')
                     ->where("reset_token","=",$token)
-                    ->where("username","=",$_POST['login'])
+                    ->where("username","=",$this->request->post('login'))
                     ->find();
                 if ($user->id !== null)
                 {
                     $user->reset_token = "";
-                    $user->password = $_POST['newpass1'];
+                    $user->password = $this->request->post('password');
                     $user->save();
                     $msg = "Dane OK. Zmiana hasła OK.";
                     $this->template->content = View::factory('user/login')
@@ -194,7 +193,8 @@ class Controller_User extends Controller_Template {
             {
                 if(Auth::instance()->get_user()->register_token!="")
                 {
-                    $message = 'Konto wymaga aktywacji - sprawdź pocztę. TODO: jeśli nie masz wiadomości kliknij tutaj';
+                    $message = 'Konto wymaga aktywacji - sprawdź pocztę. <br />'.
+                        "Jeśli nie możesz znaleźć wiadomości - sprawdź folder SPAM lub ".HTML::anchor('user/resendVerifMail', 'poproś o ponowne jej wysłanie').".";
                     Auth::instance()->login("bla","bla"); //destroy session without explicit logout via framework
                 }
                 else
@@ -207,6 +207,33 @@ class Controller_User extends Controller_Template {
                 $message = 'Logowanie nie powiodło się';
             }
         }
+    }
+
+    public function action_resendVerifMail()
+    {
+        $this->template->content = View::factory('user/resendVerifMail');
+        if($this->request->method() == 'POST')
+        {
+            $user = ORM::factory('User')
+                ->where("email","=",$this->request->post('email'))
+                ->where("register_token","<>","")
+                ->find();
+            if ($user->id === null)
+            {
+                $msg = "Dane nie pasują!";
+            }
+            else
+            {
+                $newToken = Helper_Random::randomString(16);
+                $user->register_token = $newToken;
+                $user->save();
+                Helper_Email::sendRegistrationEmail($user->email, $user->username, $newToken);
+                $msg = "Dane OK. Sprawdź skrzynkę mailową.";
+            }
+            $this->template->content
+                ->bind('message', $msg);
+        }
+
     }
 
     public function action_logout()

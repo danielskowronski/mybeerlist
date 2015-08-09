@@ -6,6 +6,9 @@
     </h3>
 <? endif; ?>
 
+
+<script src="/files/variaScripts/password.js"></script>
+
 <?= Form::open('user/create'); ?>
 
 <?= Form::label('username', 'Nazwa użytkowika'); ?>
@@ -32,7 +35,7 @@
     <?= Arr::path($errors, '_external.password_confirm'); ?>
 </div>
 
-<?= Form::submit('create', 'Utwórz konto'); ?>
+<?= Form::submit('create', 'Utwórz konto', array("onClick"=>"return validatePassword();")); ?>
 <?= Form::close(); ?>
 
 <p>Lub <?= HTML::anchor('user/login', 'zaloguj się'); ?> jeśli już posiadasz u nas konto.</p>

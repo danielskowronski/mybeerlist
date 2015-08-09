@@ -16,4 +16,6 @@ commity:
 >> reset hasła
 >> $_POST[] pewnie się da jakoś obiektowo zrobić
 >> if($user) się wali na nullu
-18 tematy maili tez powinny mieć utf8
+>> tematy maili tez powinny mieć utf8
+>> jak brak maila aktywującego - wyślij ponownie
+20 templatka - <title> zawsze równa się pierwszemu <h2> - zunifikować to bo i i tak variable się ustawia

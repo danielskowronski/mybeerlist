@@ -2,14 +2,16 @@
 
 class Controller_BeerEntry extends Controller {
 
+    public function before()
+    {
+        Helper_User::checkAuth($this);
+    }
     public function action_index()
     {
         $this->action_list();
     }
     public function action_list()
     {
-        Helper_User::checkAuth($this);
-
         $view = View::factory('beerentry/list');
         $view->beers = ORM::factory('BeerEntry')
             ->where("userId","=",Auth::instance()->get_user()->id)
@@ -21,8 +23,6 @@ class Controller_BeerEntry extends Controller {
     }
     public function action_edit()
     {
-        Helper_User::checkAuth($this);
-
         $id = $this->request->param('id');
         $beerentry = ORM::factory('BeerEntry', $id);
         if($this->request->method() == 'POST')
@@ -42,8 +42,6 @@ class Controller_BeerEntry extends Controller {
     }
     public function action_show()
     {
-        Helper_User::checkAuth($this);
-
         $id = $this->request->param('id');
         $beerentry = ORM::factory('BeerEntry', $id);
 
@@ -55,10 +53,8 @@ class Controller_BeerEntry extends Controller {
     }
     public function action_delete()
     {
-        Helper_User::checkAuth($this);
-
         $id = $this->request->param('id');
-        $beerentry = ORM::factory('BeerEntry', $id)->delete();
+        ORM::factory('BeerEntry', $id)->delete();
         $this->redirect('BeerEntry/list');
     }
 

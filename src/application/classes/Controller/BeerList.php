@@ -19,7 +19,6 @@ class Controller_BeerList extends Controller {
     public function action_show()
     {
         $id = $this->request->param('id');
-        //var_dump($id);
         if (!isset($id)){
             $userEntity = ORM::factory('User')
                 ->where("username","=",$this->request->param('user'))
@@ -41,7 +40,6 @@ class Controller_BeerList extends Controller {
             $this->action_list();
             return;
         }
-        //var_dump($userEntity);die();
 
         $view = View::factory('beerlist/show');
         $view->beers = ORM::factory('BeerEntry')

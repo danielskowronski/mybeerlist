@@ -3,31 +3,18 @@
 <h1>Resetuj hasło </h1>
 <?php if (isset($message)): ?><h2><?php echo $message; ?></h2><?php endif;?>
 
-<script>
-    function validatePassword(){
-        if ($("input[name=newpass1]").val() != $("input[name=newpass2]").val()){
-            alert("Hasła się nie zgadzają!");
-            return false;
-        }
-        if ($("input[name=newpass1]").val().length < 8){
-            alert("Hasło za krótkie!");
-            return false;
-        }
-        return true;
-    }
-
-</script>
+<script src="/files/variaScripts/password.js"></script>
 
 <?php echo Form::open('user/reset'); ?>
 
 <?php echo Form::label('login', "Login"); ?>
 <?php echo Form::input('login'); ?><br />
 
-<?php echo Form::label('newpass1', "Nowe hasło"); ?>
-<?php echo Form::password('newpass1'); ?><br />
+<?php echo Form::label('password', "Nowe hasło"); ?>
+<?php echo Form::password('password'); ?><br />
 
-<?php echo Form::label('newpass2', "Nowe hasło (jeszcze raz)"); ?>
-<?php echo Form::password('newpass2'); ?><br />
+<?php echo Form::label('password_confirm', "Nowe hasło (jeszcze raz)"); ?>
+<?php echo Form::password('password_confirm'); ?><br />
 
 <?php echo Form::hidden('token', $token); ?><br />
 
