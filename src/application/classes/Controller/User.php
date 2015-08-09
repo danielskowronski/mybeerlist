@@ -141,7 +141,7 @@ class Controller_User extends Controller_Template {
                     $newToken = Helper_Random::randomString(16);
                     $user->register_token = $newToken;
                     $user->save();
-                    Helper_Email::sendRegistrationEmail($user->email, $user->username, $newToken);
+                    Helper_Email::sendPasswdResetEmail($user->email, $user->username, $newToken);
                     $msg = "Dane OK. Sprawdź skrzynkę mailową.";
                 }
                 $this->template->content
