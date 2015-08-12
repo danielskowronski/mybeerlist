@@ -19,6 +19,7 @@ class Controller_BeerList extends Controller {
     public function action_show()
     {
         $id = $this->request->param('id');
+
         if (!isset($id)){
             $userEntity = ORM::factory('User')
                 ->where("username","=",$this->request->param('user'))
@@ -36,7 +37,7 @@ class Controller_BeerList extends Controller {
             $this->redirect('BeerEntry/list');
         }
 
-        if ($userEntity->publicLevel<=0) {
+        if ($userEntity->publicLevel<=0 && !Helper_User::areFriends(Auth::instance()->get_user()->id, $id)) {
             $this->action_list();
             return;
         }

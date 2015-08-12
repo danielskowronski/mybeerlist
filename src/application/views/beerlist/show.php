@@ -15,7 +15,7 @@
     <br />
     <table id="list">
         <tr>
-            <?php foreach(Helper_PublicLevel::decodePublicLevel($userEntity->publicLevel) as $key => $value): ?>
+            <?php foreach(Helper_PublicLevel::decodePublicLevel(Helper_User::areFriends(Auth::instance()->get_user()->id, $userEntity->id) ? Helper_PublicLevel::$maxLevel : $userEntity->publicLevel) as $key => $value): ?>
                 <?php if ($value==false) continue; ?>
                 <th><?php echo $key;  ?></th>
             <?php endforeach; ?>
@@ -23,7 +23,7 @@
 
         <?php foreach($beers as $beer): ?>
             <tr>
-                <?php foreach(Helper_PublicLevel::decodePublicLevel($userEntity->publicLevel) as $key => $value): ?>
+                <?php foreach(Helper_PublicLevel::decodePublicLevel(Helper_User::areFriends(Auth::instance()->get_user()->id, $userEntity->id) ? Helper_PublicLevel::$maxLevel : $userEntity->publicLevel) as $key => $value): ?>
                     <?php if ($value==false) continue; ?>
                     <?php if ($key=="name"): ?>
                         <td><?php echo HTML::anchor($beer->beerLink, $beer->beerName) ; ?></td>

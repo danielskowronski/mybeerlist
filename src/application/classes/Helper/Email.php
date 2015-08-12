@@ -34,5 +34,21 @@ class Helper_Email extends Controller
 
         mail($email, mb_encode_mimeheader($subject,"UTF-8"), $body, $headers);
     }
+    public static function sendNewFriendRequest($email, $username, $friendUsername)
+    {
+        $body =
+            "Witaj $friendUsername!\r\n".
+            "Użytkownik $username poprosił o dołączenie do grona Twoich znajomych.\r\n".
+            "Jeśli go znasz i chcesz udostępnić mu swoją listę - kliknij w link http://$_SERVER[SERVER_NAME]/friend/requests i zatwierdź zaproszenie\r\n".
+            "\r\n".
+            "Ekipa MBL";
+        $subject = "Zaproszenie do znajomych na MBL";
+
+        $headers = 'From: webmaster@mbl.dsinf.net' . "\r\n" .
+            'Reply-To: webmaster@dsinf.net' . "\r\n" .
+            'X-Mailer: PHP/' . phpversion();
+
+        mail($email, mb_encode_mimeheader($subject,"UTF-8"), $body, $headers);
+    }
 
 }

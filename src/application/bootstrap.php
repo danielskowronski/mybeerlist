@@ -161,6 +161,12 @@ Route::set('publicLists', 'public')
 		'action'     => 'list',
 	));
 
+Route::set('friends-index', 'friends')
+	->defaults(array(
+		'controller' => 'Friend',
+		'action'     => 'index',
+	));
+
 Route::set('static-about', 'about')
 	->defaults(array(
 		'controller' => 'StaticPages',

@@ -2,6 +2,7 @@
 
 class Helper_PublicLevel extends Controller
 {
+    public static $maxLevel = 127;
     public static function encodePublicLevel($publicityArray)
     {
         $encoded = 0;

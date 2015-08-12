@@ -38,6 +38,7 @@
                 <li><a href="/about">O portalu</a></li>
                 <li><a href="/public">Publiczne listy</a></li>
                 <li><a href="/mylist">Moja lista</a></li>
+                <li><a href="/friends">Znajomi</a></li>
                 <li><a href="/user">Moje konto</a></li>
             </ul>
         </div><!--/.nav-collapse -->
