@@ -1,4 +1,4 @@
-<?php require(dirname(__FILE__)."/../_skel/header.php"); ?>
+<?php $page_title="Edytuj wpis"; require(dirname(__FILE__)."/../_skel/header.php"); ?>
 
 <style>
     #beerSearchResults{
@@ -35,12 +35,10 @@
 <script>
     $(function() {
         $( "#datepicker" ).datepicker({
-            dateFormat: "yy-mm-dd" // contrary to appearances yy means 2015 not 15
+            dateFormat: "yy-mm-dd" // contrary to appearance yy means 2015 not 15
         });
     });
 </script>
-
-<h1>Edytuj wpis</h1>
 
 <?php echo Form::open('BeerEntry/edit/' . $beerentry->id); ?>
 

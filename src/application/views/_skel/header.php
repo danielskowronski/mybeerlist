@@ -46,3 +46,18 @@
 </nav>
 
 <div class="container">
+<?php if (!isset($DISABLE_AUTO_TEASER) || !$DISABLE_AUTO_TEASER): ?>
+    <h1><?php echo HTML::chars($page_title); ?></h1>
+    <?php if (isset($message) && $message!=""): ?>
+        <div class="alert alert-success alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong><?= $message; ?></strong>
+        </div>
+    <?php endif;?>
+    <?php if (isset($errors) && $errors!=""): ?>
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong><?= $errors; ?></strong>
+        </div>
+    <?php endif;?>
+<?php endif; ?>

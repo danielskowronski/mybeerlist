@@ -1,4 +1,4 @@
-<?php require(dirname(__FILE__)."/../_skel/header.php"); ?>
+<?php $page_title="Moja lista piw"; require(dirname(__FILE__)."/../_skel/header.php"); ?>
 
     <style>
         #list td, #list td{
@@ -7,7 +7,6 @@
         }
     </style>
 
-    <h1>Moja lista piw</h1>
 <?php echo HTML::anchor('BeerEntry/edit', 'Dodaj nowy'); ?><br/>
     <br />
     <table id="list">

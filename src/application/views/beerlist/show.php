@@ -1,4 +1,4 @@
-<?php require(dirname(__FILE__)."/../_skel/header.php"); ?>
+<?php $page_title="Lista piw użytkownika ".$userEntity->username;  require(dirname(__FILE__)."/../_skel/header.php"); ?>
 
     <style>
         #list td, #list td{
@@ -11,7 +11,6 @@
     <script src="/files/photoShower/script.js"></script>
     <div id="photoCanvas"></div>
 
-    <h1>Lista piw użytkownika <?= $userEntity->username; ?></h1>
     <br />
     <table id="list">
         <tr>

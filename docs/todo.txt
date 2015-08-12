@@ -18,10 +18,10 @@ commity:
 >> if($user) się wali na nullu
 >> tematy maili tez powinny mieć utf8
 >> jak brak maila aktywującego - wyślij ponownie
-20 templatka - <title> zawsze równa się pierwszemu <h2> - zunifikować to bo i i tak variable się ustawia
+>> templatka - <title> zawsze równa się pierwszemu <h2> - zunifikować to bo i i tak variable się ustawia
 21 beerlist -> pokazywarka samych wpisów - jeszcze nie wiem jak (może kontroler beerentry a może beerlist z akcją details)
-22 ujednolicenie sposobu używania szablonów kontrolerów/widoków (user odstaje...)
-23 messages via bootstrap!
+>> ujednolicenie sposobu używania szablonów kontrolerów/widoków (user odstaje...)
+>> messages via bootstrap!
 >> zabezpiecz ponowne wysyłanie zaproszenia
 >> daty w listach się nie zgadzają, zapisuj datę zawarcia znajomości
 >> poprawny kierunek potwierdzania zaproszenia - b do a, nie na odwrót

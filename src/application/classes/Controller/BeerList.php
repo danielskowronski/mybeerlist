@@ -13,7 +13,6 @@ class Controller_BeerList extends Controller {
         $view->beerlists = ORM::factory('User')
             ->where("publicLevel",">","0")
             ->find_all();
-        $view->page_title = "Publiczne listy";
         $this->response->body($view);
     }
     public function action_show()
@@ -47,7 +46,6 @@ class Controller_BeerList extends Controller {
             ->where("userId","=",$id)
             ->find_all();
         $view->userEntity = $userEntity;
-        $view->page_title = "Lista użytkownika ".$userEntity->username;
         $this->response->body($view);
 
     }

@@ -1,4 +1,4 @@
-<?php require(dirname(__FILE__)."/../_skel/header.php"); ?>
+<?php $page_title="Lista zaproszeń do znajomych".(($ignored) ? " ZIGNOROWANYCH" : ""); require(dirname(__FILE__)."/../_skel/header.php"); ?>
 
     <style>
         #list td, #list td{
@@ -7,7 +7,6 @@
         }
     </style>
 
-    <h1>Lista zaproszeń do znajomych <?= ($ignored) ? "ZIGNOROWANYCH" : ""; ?></h1>
 <?php echo HTML::anchor('Friend/add', 'Dodaj znajomego'); ?><br/>
 <?php echo HTML::anchor('Friend/list', 'Lista znajomych'); ?><br/>
 

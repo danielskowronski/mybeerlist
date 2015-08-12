@@ -1,6 +1,4 @@
-<?php require(dirname(__FILE__)."/../_skel/header.php"); ?>
-
-    <h1>Publiczne listy</h1>
+<?php $page_title="Publiczne listy"; require(dirname(__FILE__)."/../_skel/header.php"); ?>
 
 <ul>
 <?php foreach($beerlists as $beerlist): ?>

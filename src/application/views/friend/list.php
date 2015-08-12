@@ -1,5 +1,4 @@
-<?php require(dirname(__FILE__)."/../_skel/header.php"); ?>
-<?php if (isset($message)): ?><h2><?php echo $message; ?></h2><?php endif;?>
+<?php $page_title="Lista znajomych"; require(dirname(__FILE__)."/../_skel/header.php"); ?>
     <style>
         #list td, #list td{
             border: 1px solid #000000;
@@ -7,7 +6,6 @@
         }
     </style>
 
-    <h1>Lista znajomych</h1>
 <?php echo HTML::anchor('Friend/add', 'Dodaj znajomego'); ?><br/>
 <?php echo HTML::anchor('Friend/requests', 'Zaproszenia oczekujące'); ?><br/>
     <br />

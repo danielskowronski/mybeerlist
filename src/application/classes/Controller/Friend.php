@@ -33,7 +33,6 @@ class Controller_Friend extends Controller
             ->and_where_close()
             ->find_all();
 
-        $view->page_title = "Lista znajomych";
         $this->response->body($view);
     }
 
@@ -47,19 +46,19 @@ class Controller_Friend extends Controller
                 ->find();
             if ($user->id === null)
             {
-                $message = "Nie ma takiego użytkownika!";
+                $errors = "Nie ma takiego użytkownika!";
             }
             else
             {
-                $friendshipOld = ORM::factory('Friend')
-                    ->select(DB::expr("(IF(`uid_a`=@UID,`uid_b`,`uid_a`)) AS `friend_uid`"), "date_confirmed")
+                $currid = Auth::instance()->get_user()->id;
+                $cnt = ORM::factory('Friend')
+                    ->select(DB::expr("(IF(`uid_a`=$currid,`uid_b`,`uid_a`)) AS `friend_uid`"), "date_confirmed")
                     ->and_where_open()
-                    ->or_where("uid_a","=",Auth::instance()->get_user()->id)
-                    ->or_where("uid_b","=",Auth::instance()->get_user()->id)
+                    ->and_where("uid_a","=",$currid)
+                    ->and_where("uid_b","=",$user->id)
                     ->and_where_close()
-                    ->find();
-
-                if ($friendshipOld->id === null)
+                    ->count_all();
+                if ($cnt==0)
                 {
                     $friendship = ORM::factory('Friend')
                         ->create();
@@ -73,14 +72,13 @@ class Controller_Friend extends Controller
                 }
                 else
                 {
-                    $message = "Nie można drugi raz wysłać zaproszenia. Albo jesteście już znajomymi, albo druga strona nie zatwierdziła znajomości.";
+                    $errors = "Nie można drugi raz wysłać zaproszenia. Albo jesteście już znajomymi, albo druga strona nie zatwierdziła znajomości.";
                 }
             }
         }
 
         $view = View::factory('friend/add');
-        $view->bind('message', $message);
-        $view->page_title = "Dodaj przyjaciela";
+        $view->bind('message', $message)->bind('errors', $errors);
 
         $this->response->body($view);
     }
@@ -88,12 +86,14 @@ class Controller_Friend extends Controller
     public function action_delete()
     {
         //deletes friend
+        $id = $this->request->param('id');
+        $currid = Auth::instance()->get_user()->id;
         $friendship = ORM::factory('Friend')
-            ->select(DB::expr("(IF(`uid_a`=@UID,`uid_b`,`uid_a`)) AS `friend_uid`"), "date_confirmed")
+            ->select(DB::expr("(IF(`uid_a`=$currid,`uid_b`,`uid_a`)) AS `friend_uid`"), "date_confirmed")
             ->where("confirmed","=","1")
             ->and_where_open()
-            ->or_where("uid_a","=",Auth::instance()->get_user()->id)
-            ->or_where("uid_b","=",Auth::instance()->get_user()->id)
+            ->and_where("uid_a","=",$currid)
+            ->and_where("uid_b","=",$id)
             ->and_where_close()
             ->find();
         $friendship->delete();
@@ -146,7 +146,6 @@ class Controller_Friend extends Controller
             ->where("b_ignored","=",$b_ignored)
             ->find_all();
 
-        $view->page_title = "Lista zaproszeń do znajomych";
         $this->response->body($view);
     }
 }

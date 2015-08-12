@@ -16,6 +16,7 @@ class Controller_User extends Controller_Template {
         $this->template->content = View::factory('user/create')
             ->bind('errors', $errors)
             ->bind('message', $message);
+        $message="";
 
         if (HTTP_Request::POST == $this->request->method())
         {
@@ -42,7 +43,6 @@ class Controller_User extends Controller_Template {
             }
             catch (ORM_Validation_Exception $e)
             {
-                $message = 'Wystąpiły błędy:';
                 $errors = $e->errors('models');
             }
         }
@@ -51,6 +51,7 @@ class Controller_User extends Controller_Template {
     public function action_activate()
     {
         $this->template->content = View::factory('user/activate')
+            ->bind('errors', $errors)
             ->bind('message', $message);
 
         $token = $this->request->param('id');
@@ -68,7 +69,7 @@ class Controller_User extends Controller_Template {
         }
         else
         {
-            $message = "Nie znaleziono takiego tokena. Spróbuj się zalogować.<br />".
+            $errors = "Nie znaleziono takiego tokena. Spróbuj się zalogować.<br />".
                 "Jeśli nie możesz znaleźć wiadomości - sprawdź folder SPAM lub ".HTML::anchor('user/resendVerifMail', 'poproś o ponowne jej wysłanie').".";
         }
 
@@ -77,6 +78,7 @@ class Controller_User extends Controller_Template {
     public function action_edit()
     {
         $this->template->content = View::factory('user/edit')
+            ->bind('errors', $errors)
             ->bind('user', $user);
 
         Helper_User::checkAuth($this);
@@ -99,8 +101,9 @@ class Controller_User extends Controller_Template {
     public function action_password()
     {
         $this->template->content = View::factory('user/password');
-        $msg =  "Stare hasło się nie zgadza!";
+        $errors =  "Stare hasło się nie zgadza!";
         Helper_User::checkAuth($this);
+        $message="";
 
         if($this->request->method() == 'POST')
         {
@@ -111,7 +114,7 @@ class Controller_User extends Controller_Template {
                 $this->redirect('user/');
             }
             else{
-                $this->template->content->bind("message", $msg);
+                $this->template->content->bind("message", $message)->bind('errors', $errors);
             }
 
         }
@@ -123,6 +126,7 @@ class Controller_User extends Controller_Template {
         $tokenPost = $this->request->post('token');
         $token = isset($tokenGet) ? $tokenGet : (isset($tokenPost) ? $tokenPost : "");
 
+        $message="";
         if (!isset($token) || $token=="" )
         {
             //request for token
@@ -134,7 +138,7 @@ class Controller_User extends Controller_Template {
                     ->find();
                 if ($user->id === null)
                 {
-                    $msg = "Dane nie pasują!";
+                    $errors = "Dane nie pasują!";
                 }
                 else
                 {
@@ -145,7 +149,8 @@ class Controller_User extends Controller_Template {
                     $msg = "Dane OK. Sprawdź skrzynkę mailową.";
                 }
                 $this->template->content
-                    ->bind('message', $msg);
+                    ->bind('message', $message)
+                    ->bind('errors', $errors);
             }
         }
         else
@@ -165,16 +170,17 @@ class Controller_User extends Controller_Template {
                     $user->reset_token = "";
                     $user->password = $this->request->post('password');
                     $user->save();
-                    $msg = "Dane OK. Zmiana hasła OK.";
+                    $message = "Dane OK. Zmiana hasła OK.";
                     $this->template->content = View::factory('user/login')
                         ->bind('message', $msg);
                 }
                 else
                 {
-                    $msg = "Dane nie pasują lub token niepoprawny!";
+                    $errors = "Dane nie pasują lub token niepoprawny!";
                 }
                 $this->template->content
-                    ->bind('message', $msg);
+                    ->bind('message', $msg)
+                    ->bind('errors', $errors);
             }
         }
     }
@@ -182,6 +188,7 @@ class Controller_User extends Controller_Template {
     public function action_login()
     {
         $this->template->content = View::factory('user/login')
+            ->bind('errors', $errors)
             ->bind('message', $message);
 
         if (HTTP_Request::POST == $this->request->method())
@@ -193,7 +200,7 @@ class Controller_User extends Controller_Template {
             {
                 if(Auth::instance()->get_user()->register_token!="")
                 {
-                    $message = 'Konto wymaga aktywacji - sprawdź pocztę. <br />'.
+                    $errors = 'Konto wymaga aktywacji - sprawdź pocztę. <br />'.
                         "Jeśli nie możesz znaleźć wiadomości - sprawdź folder SPAM lub ".HTML::anchor('user/resendVerifMail', 'poproś o ponowne jej wysłanie').".";
                     Auth::instance()->login("bla","bla"); //destroy session without explicit logout via framework
                 }
@@ -204,7 +211,7 @@ class Controller_User extends Controller_Template {
             }
             else
             {
-                $message = 'Logowanie nie powiodło się';
+                $errors = 'Logowanie nie powiodło się';
             }
         }
     }
@@ -220,7 +227,7 @@ class Controller_User extends Controller_Template {
                 ->find();
             if ($user->id === null)
             {
-                $msg = "Dane nie pasują!";
+                $errors = "Dane nie pasują!";
             }
             else
             {
@@ -228,10 +235,11 @@ class Controller_User extends Controller_Template {
                 $user->register_token = $newToken;
                 $user->save();
                 Helper_Email::sendRegistrationEmail($user->email, $user->username, $newToken);
-                $msg = "Dane OK. Sprawdź skrzynkę mailową.";
+                $message = "Dane OK. Sprawdź skrzynkę mailową.";
             }
             $this->template->content
-                ->bind('message', $msg);
+                ->bind('errors', $errors)
+                ->bind('message', $message);
         }
 
     }

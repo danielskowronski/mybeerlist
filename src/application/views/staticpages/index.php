@@ -1,4 +1,4 @@
-<?php require(dirname(__FILE__)."/../_skel/header.php"); ?>
+<?php $page_title="Witaj na MyBeerList!"; require(dirname(__FILE__)."/../_skel/header.php"); ?>
 
 <script>
     $.ajax({
@@ -9,7 +9,6 @@
         }
     });
 </script>
-    <h1>Witaj na MyBeerList!</h1>
     To jest commit #<span id="commitCount">...</span> na <a href="https://github.com/danielskowronski/mybeerlist">github.com/danielskowronski/mybeerlist</a>.
 
 

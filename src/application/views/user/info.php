@@ -1,6 +1,5 @@
-<?php $page_title="Moje konto"; require(dirname(__FILE__)."/../_skel/header.php"); ?>
+<?php $page_title="Moje konto - ".$user->username; require(dirname(__FILE__)."/../_skel/header.php"); ?>
 
-<h2>Moje konto - "<?= $user->username; ?>"</h2>
 <img src="<?= $user->avatarUrl; ?>" style="max-width: 200px;" /><br />
 
 <ul>

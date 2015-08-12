@@ -1,12 +1,5 @@
 <?php $page_title="Logowanie"; require(dirname(__FILE__)."/../_skel/header.php"); ?>
 
-<h2>Logowanie</h2>
-<? if ($message) : ?>
-    <h3 class="message">
-        <?= $message; ?>
-    </h3>
-<? endif; ?>
-
 <?= Form::open('user/login'); ?>
 
 <?= Form::label('username', 'Nazwa użytkownika'); ?>

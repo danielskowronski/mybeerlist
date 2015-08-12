@@ -1,4 +1,4 @@
-<?php require(dirname(__FILE__)."/../_skel/header.php"); ?>
+<?php $page_title="Pokaż - ".HTML::chars($beer->beerName)." - ".HTML::chars($beer->date); require(dirname(__FILE__)."/../_skel/header.php"); ?>
 
 <link rel="stylesheet" type="text/css" href="/files/photoShower/style.css">
 <script src="/files/photoShower/script.js"></script>
@@ -10,8 +10,6 @@
         max-width: 200px;
     }
 </style>
-
-<h1>Pokaż - <?php echo HTML::chars($beer->beerName); ?> - <?php echo HTML::chars($beer->date); ?></h1>
 
 Nazwa piwa i link do ocen-piwo.pl: <a href="<?php echo HTML::chars($beer->beerLink); ?>"><?php echo HTML::chars($beer->beerName); ?></a><br />
 <?php $wypiteShown=false; if(!empty($beer->location)): ?>

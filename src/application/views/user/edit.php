@@ -1,7 +1,5 @@
 <?php $page_title="Edytuj konto"; require(dirname(__FILE__)."/../_skel/header.php"); ?>
 
-<h1>Edytuj konto </h1>
-
 <?php echo Form::open('user/edit'); ?>
 
 <?php echo Form::label('username', "Nazwa użytkownika"); ?>

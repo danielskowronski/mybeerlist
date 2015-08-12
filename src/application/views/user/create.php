@@ -1,11 +1,4 @@
 <?php $page_title="Tworzenie konta"; require(dirname(__FILE__)."/../_skel/header.php"); ?>
-<h2>Tworzenie konta</h2>
-<? if ($message) : ?>
-    <h3 class="message">
-        <?= $message; ?>
-    </h3>
-<? endif; ?>
-
 
 <script src="/files/variaScripts/password.js"></script>
 
