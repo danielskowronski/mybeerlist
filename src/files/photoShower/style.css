@@ -1,6 +1,7 @@
 #photoCanvas{
     display: none;
-    background: pink;
+    background: darkslategray;
+    color: white;
     position: absolute;
     min-width: 1px;
     min-height: 1px;

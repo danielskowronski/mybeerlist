@@ -1,9 +1,10 @@
 <?php $page_title="Lista piw użytkownika ".$userEntity->username;  require(dirname(__FILE__)."/../_skel/header.php"); ?>
+    <link rel="stylesheet" type="text/css" href="/files/table.css">
 
+    <?= HTML::image($userEntity->avatarUrl, array("class"=>"avatar")); ?>
     <style>
-        #list td, #list td{
-            border: 1px solid #000000;
-            padding: 2px;
+        .avatar{
+            max-height: 250px;
         }
     </style>
 
@@ -12,11 +13,11 @@
     <div id="photoCanvas"></div>
 
     <br />
-    <table id="list">
+    <table id="list" class="table table-striped">
         <tr>
             <?php foreach(Helper_PublicLevel::decodePublicLevel(Helper_User::areFriends(Auth::instance()->get_user()->id, $userEntity->id) ? Helper_PublicLevel::$maxLevel : $userEntity->publicLevel) as $key => $value): ?>
                 <?php if ($value==false) continue; ?>
-                <th><?php echo $key;  ?></th>
+                <th><?php echo Helper_PublicLevel::translateRawPublicityName($key);  ?></th>
             <?php endforeach; ?>
         </tr>
 

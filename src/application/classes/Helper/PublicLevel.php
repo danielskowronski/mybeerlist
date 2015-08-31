@@ -61,8 +61,10 @@ class Helper_PublicLevel extends Controller
         return $publicityArray;
 
     }
+
     private static $translations = array("name"=>"nazwa", "rating"=>"ocena", "photo"=>"zdjęcie", "date"=>"data", "location"=>"lokal", "companions"=>"towarzystwo", "notes"=>"notatki");
-    public static function translateRawPublicityName($input){
+    public static function translateRawPublicityName($input)
+    {
         return Helper_PublicLevel::$translations[$input];
     }
 }

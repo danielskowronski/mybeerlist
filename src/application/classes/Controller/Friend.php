@@ -15,7 +15,6 @@ class Controller_Friend extends Controller
 
     public function action_list()
     {
-        //lists currernt friends with link to their list -> via beerlist and to action_delete
         $view = View::factory('friend/list')
             ->bind('message', $message)
             ->bind('friendships', $friendships);
@@ -38,12 +37,12 @@ class Controller_Friend extends Controller
 
     public function action_add()
     {
-        //form to find user and send request (+mail)
         if($this->request->method() == 'POST')
         {
             $user = ORM::factory('User')
                 ->where("username","=",$this->request->post('login'))
                 ->find();
+
             if ($user->id === null)
             {
                 $errors = "Nie ma takiego użytkownika!";
@@ -85,7 +84,6 @@ class Controller_Friend extends Controller
 
     public function action_delete()
     {
-        //deletes friend
         $id = $this->request->param('id');
         $currid = Auth::instance()->get_user()->id;
         $friendship = ORM::factory('Friend')
@@ -102,7 +100,6 @@ class Controller_Friend extends Controller
 
     public function action_confirm()
     {
-        //confirms friendship
         $id = $this->request->param('id');
         $friendship = ORM::factory('Friend')
             ->where("uid_b","=",Auth::instance()->get_user()->id)
@@ -116,7 +113,6 @@ class Controller_Friend extends Controller
 
     public function action_ignore()
     {
-        //ignores friendship request
         $id = $this->request->param('id');
         $friendship = ORM::factory('Friend')
             ->where("uid_b","=",Auth::instance()->get_user()->id)
@@ -132,7 +128,6 @@ class Controller_Friend extends Controller
 
     public function action_requests()
     {
-        //lists requests (via form shows also ignored ones and ignores selected and accepts selected)
         $view = View::factory('friend/requests')
             ->bind('message', $message)
             ->bind('friendships', $friendships)

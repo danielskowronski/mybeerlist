@@ -24,7 +24,8 @@ class Controller_BeerEntry extends Controller {
     {
         $id = $this->request->param('id');
         $beerentry = ORM::factory('BeerEntry', $id);
-        if($this->request->method() == 'POST')
+
+        if(Helper_Request::isPost($this))
         {
             $beerentry->values($_POST);
             $beerentry->userId=Auth::instance()->get_user()->id;

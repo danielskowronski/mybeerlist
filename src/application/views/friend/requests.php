@@ -1,11 +1,5 @@
 <?php $page_title="Lista zaproszeń do znajomych".(($ignored) ? " ZIGNOROWANYCH" : ""); require(dirname(__FILE__)."/../_skel/header.php"); ?>
-
-    <style>
-        #list td, #list td{
-            border: 1px solid #000000;
-            padding: 2px;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="/files/table.css">
 
 <?php echo HTML::anchor('Friend/add', 'Dodaj znajomego'); ?><br/>
 <?php echo HTML::anchor('Friend/list', 'Lista znajomych'); ?><br/>
@@ -17,13 +11,13 @@
 <?php endif; ?>
 
     <br />
-    <table id="list">
+    <table id="list" class="table table-striped">
         <tr>
-            <th>friend_avatar</th>
-            <th>friend_username</th>
-            <th>date_sent</th>
-            <th>confirm</th>
-            <th>ignore</th>
+            <th></th>
+            <th>Nazwa użytkownika</th>
+            <th>Data wysłania</th>
+            <th></th>
+            <th></th>
         </tr>
 
         <?php foreach($friendships as $friendship):
@@ -32,8 +26,8 @@
                 <td><?php echo HTML::image($friend->avatarUrl); ?></td>
                 <td><?php echo HTML::chars($friend->username); ?></td>
                 <td><?php echo HTML::chars($friendship->date_sent); ?></td>
-                <td><?php echo HTML::anchor('Friend/confirm/'.$friendship->uid_a, 'Confirm'); ?></td>
-                <td><?php echo HTML::anchor('Friend/ignore/'. $friendship->uid_a, 'Ignore'); ?></td>
+                <td><?php echo HTML::anchor('Friend/confirm/'.$friendship->uid_a, '<span class="glyphicon glyphicon-ok"></span> Potwierdź', array("onclick"=>"return confirm('Czy jesteś pewien?')")); ?></td>
+                <td><?php echo HTML::anchor('Friend/ignore/'. $friendship->uid_a, '<span class="glyphicon glyphicon-remove"></span> Skasuj', array("onclick"=>"return confirm('Czy jesteś pewien?')")); ?></td>
             </tr>
         <?php endforeach; ?>
     </table>

@@ -3,8 +3,7 @@
 <ul>
 <?php foreach($beerlists as $beerlist): ?>
     <li>
-        <?php echo HTML::anchor('BeerList/show/'.$beerlist->id, "
-            <img src='".HTML::chars($beerlist->avatarUrl)."' height='20'/>".
+        <?php echo HTML::anchor('beerlist/'.$beerlist->username, "".
             HTML::chars($beerlist->username) ); ?>
     </li>
 <?php endforeach; ?>

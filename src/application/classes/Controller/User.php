@@ -18,7 +18,7 @@ class Controller_User extends Controller_Template {
             ->bind('message', $message);
         $message="";
 
-        if (HTTP_Request::POST == $this->request->method())
+        if (Helper_Request::isPost($this))
         {
             $token = Helper_Random::randomString(16);
             try
@@ -58,7 +58,12 @@ class Controller_User extends Controller_Template {
         $user = ORM::factory('User')
             ->where("register_token","=",$token)
             ->find();
-        if ($user->id !== null)
+        if (Helper_User::userNotFound($user))
+        {
+            $errors = "Nie znaleziono takiego tokena. Spróbuj się zalogować.<br />".
+                "Jeśli nie możesz znaleźć wiadomości - sprawdź folder SPAM lub ".HTML::anchor('user/resendVerifMail', 'poproś o ponowne jej wysłanie').".";
+        }
+        else
         {
             $user->register_token="";
             $user->update();
@@ -66,11 +71,6 @@ class Controller_User extends Controller_Template {
             $this->template->content = View::factory('user/login')
                 ->bind('errors', $errors)
                 ->bind('message', $message);
-        }
-        else
-        {
-            $errors = "Nie znaleziono takiego tokena. Spróbuj się zalogować.<br />".
-                "Jeśli nie możesz znaleźć wiadomości - sprawdź folder SPAM lub ".HTML::anchor('user/resendVerifMail', 'poproś o ponowne jej wysłanie').".";
         }
 
     }
@@ -85,14 +85,14 @@ class Controller_User extends Controller_Template {
 
         $uid = Auth::instance()->get_user()->id;
         $user = Auth::instance()->get_user(); //for template->content binding - do not delete - phpstorm cannot track pass-by-reference :(
-        $userDb = ORM::factory('User', $uid);
+        $userEntity = ORM::factory('User', $uid);
 
-        if($this->request->method() == 'POST')
+        if(Helper_Request::isPost($this))
         {
             $_POST['publicLevel']=Helper_PublicLevel::encodePublicLevel($_POST['publicLevel']);
-            $userDb->values($_POST); //not OOP due to hack above - TODO
-            $userDb->id = $uid;
-            $userDb->save();
+            $userEntity->values($_POST); //not OOP due to hack above - TODO
+            $userEntity->id = $uid;
+            $userEntity->save();
 
             $this->redirect('user/');
         }
@@ -105,15 +105,17 @@ class Controller_User extends Controller_Template {
         Helper_User::checkAuth($this);
         $message="";
 
-        if($this->request->method() == 'POST')
+        if(Helper_Request::isPost($this))
         {
             $user = Session::instance()->get('auth_user');
-            if ($user->password == Auth::instance()->hash($this->request->post('oldpass'))) {
+            if ($user->password == Auth::instance()->hash($this->request->post('oldpass')))
+            {
                 $user->password = $this->request->post('password');
                 $user->save();
                 $this->redirect('user/');
             }
-            else{
+            else
+            {
                 $this->template->content->bind("message", $message)->bind('errors', $errors);
             }
 
@@ -136,7 +138,7 @@ class Controller_User extends Controller_Template {
                 $user = ORM::factory('User')
                     ->where("email","=",$this->request->post('email'))
                     ->find();
-                if ($user->id === null)
+                if (Helper_User::userNotFound($user))
                 {
                     $errors = "Dane nie pasują!";
                 }
@@ -159,13 +161,17 @@ class Controller_User extends Controller_Template {
             $this->template->content = View::factory('user/reset-reset');
             $this->template->content
                 ->bind('token', $token);
-            if($this->request->method() == 'POST')
+            if(Helper_Request::isPost($this))
             {
                 $user = ORM::factory('User')
                     ->where("reset_token","=",$token)
                     ->where("username","=",$this->request->post('login'))
                     ->find();
-                if ($user->id !== null)
+                if (Helper_User::userNotFound($user))
+                {
+                    $errors = "Dane nie pasują lub token niepoprawny!";
+                }
+                else
                 {
                     $user->reset_token = "";
                     $user->password = $this->request->post('password');
@@ -173,10 +179,6 @@ class Controller_User extends Controller_Template {
                     $message = "Dane OK. Zmiana hasła OK.";
                     $this->template->content = View::factory('user/login')
                         ->bind('message', $msg);
-                }
-                else
-                {
-                    $errors = "Dane nie pasują lub token niepoprawny!";
                 }
                 $this->template->content
                     ->bind('message', $msg)
@@ -191,7 +193,7 @@ class Controller_User extends Controller_Template {
             ->bind('errors', $errors)
             ->bind('message', $message);
 
-        if (HTTP_Request::POST == $this->request->method())
+        if (Helper_Request::isPost($this))
         {
             $remember = array_key_exists('remember', $this->request->post()) ? (bool) $this->request->post('remember') : FALSE;
             $user = Auth::instance()->login($this->request->post('username'), $this->request->post('password'), $remember);
@@ -225,7 +227,7 @@ class Controller_User extends Controller_Template {
                 ->where("email","=",$this->request->post('email'))
                 ->where("register_token","<>","")
                 ->find();
-            if ($user->id === null)
+            if (Helper_User::userNotFound($user))
             {
                 $errors = "Dane nie pasują!";
             }

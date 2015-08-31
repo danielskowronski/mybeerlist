@@ -1,11 +1,11 @@
 function showPhoto(url){
     $("#photoCanvas").css("display","block");
-    $("#photoCanvas").html("<img id='photoCanvasImg' src="+url+" />");
-    console.log("show")
+    $("#photoCanvas").html("Wciśnij Escape lub kliknij gdziekolwiek by zamknąć.<br /><img id='photoCanvasImg' src="+url+" />");
+    //console.log("show")
 }
 function hidePhoto(){
     $("#photoCanvas").css("display","none");
-    console.log("hide")
+    //console.log("hide")
 }
 
 $(document).keydown(function(e) {
@@ -16,7 +16,7 @@ $(document).keydown(function(e) {
 $(document).ready(function(){
     $('.clicker').click(function(event) {
         event.stopPropagation();
-        console.log("cancel")
+        //console.log("cancel")
     });
     $('html').click(function() {
         hidePhoto();

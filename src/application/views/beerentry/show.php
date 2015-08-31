@@ -22,19 +22,26 @@ Nazwa piwa i link do ocen-piwo.pl: <a href="<?php echo HTML::chars($beer->beerLi
     dnia <em><?php echo HTML::chars($beer->date); ?></em>.<br />
 Ocena dla tego rekordu to: <em><?php echo HTML::chars($beer->rating); ?></em>
 <?php endif; ?>.<br />
-Pic related:<br />
+Pic related:
 <?php
     $picrel = preg_split("/\s/", $beer->photosUrls);
-    if (count($picrel)==0) echo "---";
-    foreach ($picrel as $photo) {
-        echo "<img onClick='javascript:showPhoto(\"$photo\")' src='$photo' class='picrel clicker'/><br />";
+    if (count($picrel)==0 || $picrel[0]=="")
+    {
+        echo "---<br />";
+    }
+    else
+    {
+        echo "<br />";
+        foreach ($picrel as $photo) {
+            echo "<img onClick='javascript:showPhoto(\"$photo\")' src='$photo' class='picrel clicker'/><br />";
+        }
     }
 ?>
 Notatki:<br />
-<?php echo HTML::chars($beer->notes); ?>
+<cite><?php echo HTML::chars($beer->notes); ?></cite>
 
 <br /><br />
-<li><b><?php echo HTML::anchor('BeerEntry/list', 'Powrót do listy'); ?></b></li>
+<li><b><?php echo HTML::anchor('mylist', 'Powrót do listy'); ?></b></li>
 <li><b><?php echo HTML::anchor('BeerEntry/edit/'.$beer->id, 'Edycja wpisu'); ?></b></li>
 
 <?php require(dirname(__FILE__)."/../_skel/footer.php"); ?>

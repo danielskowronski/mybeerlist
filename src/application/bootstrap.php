@@ -103,7 +103,8 @@ if (isset($_SERVER['KOHANA_ENV']))
  * - boolean  expose      set the X-Powered-By header                        FALSE
  */
 Kohana::init(array(
-	'base_url'   => '/kohana/',
+	'base_url'   => '/',
+	'index_file' => FALSE
 ));
 
 /**
@@ -152,8 +153,8 @@ Route::set('beerListByUser', 'beerlist(/<user>)')
 	));
 Route::set('myList', 'mylist')
 	->defaults(array(
-		'controller' => 'BeerEntry',
-		'action'     => 'list',
+		'controller' => 'BeerList',
+		'action'     => 'mylist',
 	));
 Route::set('publicLists', 'public')
 	->defaults(array(

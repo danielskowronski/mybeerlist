@@ -9,6 +9,10 @@ class Helper_User extends Controller
             $that->redirect('user/login');
         }
     }
+    public static function userNotFound($user)
+    {
+        return ($user->id === null);
+    }
     public static function userSummary($uid)
     {
         $user = ORM::factory('User')

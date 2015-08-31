@@ -4,32 +4,37 @@ class Controller_BeerDataProviderSearcher extends Controller {
 
     public function action_index()
     {
-        $query=$this->request->query('name');
-        $domain = "http://ocen-piwo.pl/";
-        //$content = file_get_contents("http://ocen-piwo.pl/Mapa_strony.html");
-        $content = file_get_contents("http://$_SERVER[SERVER_NAME]/files/Mapa_strony.html");
+        $queriedBeerName=$this->request->query('name');
 
-        $regex="/<a href=\'([^\']*?)\'\s".
+        if (Helper_BeerDataProviderSearcher::isDatabaseOutdated())
+        {
+            Helper_BeerDataProviderSearcher::updateDatabaseFile();
+        }
+
+        $databaseContent = file_get_contents(Helper_BeerDataProviderSearcher::getDatabaseFilename());
+
+        $regex="/<a\shref=\'([^\']*?)\'\s".
             "id='[^\']*?\'\s".
             "><b>".
-            "([^\']*?".$query."[^\']*?)".
+            "([^\']*?".$queriedBeerName."[^\']*?)".
             "<\/b>/iu";
 
-        $cnt = preg_match_all(
+        $resultsCnt = preg_match_all(
             $regex,
-            $content,
+            $databaseContent,
             $matches
         );
 
-        $ret = array();
-        for ($i=0;$i<$cnt;$i++){
-            $ret[$i]=array(
+        $domain = "http://ocen-piwo.pl/";
+        $results = array();
+        for ($i=0;$i<$resultsCnt;$i++){
+            $results[$i]=array(
                 "name"=>$matches[2][$i],
                 "url" =>$domain."/".$matches[1][$i],
             );
         }
 
-        $this->response->body(json_encode($ret));
+        $this->response->body(json_encode($results));
     }
 
 }
