@@ -1,5 +1,6 @@
 <?php $page_title="Lista zaproszeń do znajomych".(($ignored) ? " ZIGNOROWANYCH" : ""); require(dirname(__FILE__)."/../_skel/header.php"); ?>
     <link rel="stylesheet" type="text/css" href="/files/table.css">
+    <link rel="stylesheet" type="text/css" href="/files/avatar.css">
 
 <?php echo HTML::anchor('Friend/add', 'Dodaj znajomego'); ?><br/>
 <?php echo HTML::anchor('Friend/list', 'Lista znajomych'); ?><br/>
@@ -23,7 +24,7 @@
         <?php foreach($friendships as $friendship):
             $friend = Helper_User::userSummary($friendship->uid_a) ?>
             <tr>
-                <td><?php echo HTML::image($friend->avatarUrl); ?></td>
+                <td><?php echo HTML::image(Helper_User::gravatarUrl($friend), array("class"=>"avatarMini")); ?></td>
                 <td><?php echo HTML::chars($friend->username); ?></td>
                 <td><?php echo HTML::chars($friendship->date_sent); ?></td>
                 <td><?php echo HTML::anchor('Friend/confirm/'.$friendship->uid_a, '<span class="glyphicon glyphicon-ok"></span> Potwierdź', array("onclick"=>"return confirm('Czy jesteś pewien?')")); ?></td>

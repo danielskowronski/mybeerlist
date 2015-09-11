@@ -1,6 +1,6 @@
 <?php $page_title="Moje konto - ".$user->username; require(dirname(__FILE__)."/../_skel/header.php"); ?>
 
-<img src="<?= $user->avatarUrl; ?>" style="max-width: 200px;" /><br />
+<img src="<?= Helper_User::gravatarUrl($user) ?>" /><br />
 
 <ul>
     <li>Email: <?= $user->email; ?></li>

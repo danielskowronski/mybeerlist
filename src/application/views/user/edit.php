@@ -8,8 +8,7 @@
 <?php echo Form::label('email', "Email"); ?>
 <?php echo Form::input('email', $user->email); ?><br />
 
-<?php echo Form::label('avatarUrl', "URL avatara"); ?>
-<?php echo Form::input('avatarUrl', $user->avatarUrl); ?><br />
+Avatar z gravatara:<br /> <img src="<?= Helper_User::gravatarUrl($user) ?>" /><br /><br />
 
 Ustawienia publikowania:<br />
 

@@ -42,4 +42,8 @@ class Helper_User extends Controller
             ->count_all();
         return $cnt>0;
     }
+    public static function gravatarUrl($user, $size=256)
+    {
+            return "http://www.gravatar.com/avatar/" . md5( strtolower( trim( $user->email ) ) )  . "&s=" . $size;
+    }
 }

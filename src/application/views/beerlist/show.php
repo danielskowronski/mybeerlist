@@ -1,12 +1,7 @@
 <?php $page_title="Lista piw użytkownika ".$userEntity->username;  require(dirname(__FILE__)."/../_skel/header.php"); ?>
     <link rel="stylesheet" type="text/css" href="/files/table.css">
 
-    <?= HTML::image($userEntity->avatarUrl, array("class"=>"avatar")); ?>
-    <style>
-        .avatar{
-            max-height: 250px;
-        }
-    </style>
+    <?= HTML::image(Helper_User::gravatarUrl($userEntity)); ?>
 
     <link rel="stylesheet" type="text/css" href="/files/photoShower/style.css">
     <script src="/files/photoShower/script.js"></script>

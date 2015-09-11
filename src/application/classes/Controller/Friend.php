@@ -137,6 +137,7 @@ class Controller_Friend extends Controller
         $b_ignored = is_null($this->request->param('id')) ? 0 : 1;
 
         $friendships = ORM::factory('Friend')
+            ->where("confirmed","=","0")
             ->where("uid_b","=",Auth::instance()->get_user()->id)
             ->where("b_ignored","=",$b_ignored)
             ->find_all();
