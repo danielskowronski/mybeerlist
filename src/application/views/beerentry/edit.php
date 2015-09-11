@@ -4,6 +4,10 @@
     #beerSearchResults{
         padding: 10px;
     }
+    .picrel{
+        max-width: 300px;
+        max-width: 200px;
+    }
 </style>
 <script>
     const beerListProviderURL = "/BeerDataProviderSearcher";
@@ -40,6 +44,47 @@
     });
 </script>
 
+<script>
+    function deletePhoto(url)
+    {
+        $.get("/photo/delete/"+url.substring(8), function(){});
+        $("#photosUrls").val($("#photosUrls").val().replace(url,""))
+        $($($("img[src='"+url+"']")[0]).parent()).remove()
+    }
+</script>
+
+<script>
+    $( document ).ready(function() {
+        var form = document.getElementById('file-form');
+        var fileSelect = document.getElementById('file-select');
+        var uploadButton = document.getElementById('upload-button');
+        form.onsubmit = function(event) {
+            event.preventDefault();
+            uploadButton.innerHTML = 'Uploading...';
+            var files = fileSelect.files;
+            var formData = new FormData();
+            var file = files[0];
+            if (!file.type.match('image.*')) {
+                uploadButton.innerHTML = 'Not an image! Upload another file';
+                return;
+            }
+            formData.append('photo', file, file.name);
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/photo/upload', true);
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    $("#photosUrls").val($("#photosUrls").val()+" /photos/"+xhr.responseText)
+                    $("#photos").html($("#photos").html()+"<span><img src='/photos/"+xhr.responseText+"'><a onClick='deletePhoto(\""+xhr.responseText+"\")'>Skasuj</a></span><br />")
+                    uploadButton.innerHTML = 'Upload';
+                } else {
+                    alert('An error occurred!');
+                }
+            };
+            xhr.send(formData);
+        }
+    });
+</script>
+
 <?php echo Form::open('BeerEntry/edit/' . $beerentry->id); ?>
 
 <?php echo Form::label('beerName', "Nazwa piwa"); ?>
@@ -63,8 +108,8 @@
 <?php echo Form::label('rating', "Ocena (0-10, 0 = Kompania Piwowarska xD)"); ?>
 <?php echo Form::input('rating', $beerentry->rating, array('type'=>'number', 'min'=>'0', 'max'=>'10')); ?><br />
 
-<?php echo Form::label('photosUrls', "URLe pic related"); ?><br />
-<?php echo Form::textarea('photosUrls', $beerentry->photosUrls, array('columns'=>'32', 'rows'=>'5')); ?><br />
+<?php echo Form::hidden('photosUrls', $beerentry->photosUrls, array("id"=>"photosUrls")); ?>
+
 
 <?php echo Form::label('notes', "Notatki"); ?><br />
 <?php echo Form::textarea('notes', $beerentry->notes, array('columns'=>'32', 'rows'=>'5')); ?><br />
@@ -72,5 +117,29 @@
 <?php echo Form::submit('save', 'Zapisz'); ?><br/>
 
 <?php echo Form::close(); ?>
+
+
+    <div id="photos">
+        <?php
+        $picrel = preg_split("/\s/", $beerentry->photosUrls);
+        if (count($picrel)==0)
+        {
+            echo "---<br />";
+        }
+        else
+        {
+            echo "<br />";
+            foreach ($picrel as $photo) {
+                if ($photo=="") continue;
+                echo "<span><img onClick='javascript:showPhoto(\"$photo\")' src='$photo' class='picrel clicker'/><a onClick='deletePhoto(\"$photo\")'>Skasuj</a></span><br />";
+            }
+        }
+        ?></div>
+    <form id="file-form" action="/photo/upload" method="POST">
+        <input type="file" id="file-select" name="photos[]" multiple/>
+        <button type="submit" id="upload-button">Upload</button>
+    </form>
+    <br /><br />
+
 
 <?php require(dirname(__FILE__)."/../_skel/footer.php"); ?>

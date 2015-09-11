@@ -179,6 +179,12 @@ Route::set('static-index', '')
 		'action'     => 'index',
 	));
 
+Route::set('photo-delete', 'photo/delete/<name>', array('name' => '[^/,;?]++'))
+	->defaults(array(
+		'controller' => 'Photo',
+		'action'     => 'delete',
+	));
+
 Route::set('default', '(<controller>(/<action>(/<id>)))')
 	->defaults(array(
 		'controller' => 'welcome',

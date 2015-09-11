@@ -25,7 +25,7 @@ Ocena dla tego rekordu to: <em><?php echo HTML::chars($beer->rating); ?></em>
 Pic related:
 <?php
     $picrel = preg_split("/\s/", $beer->photosUrls);
-    if (count($picrel)==0 || $picrel[0]=="")
+    if (count($picrel)==0 )
     {
         echo "---<br />";
     }
@@ -33,6 +33,7 @@ Pic related:
     {
         echo "<br />";
         foreach ($picrel as $photo) {
+            if ($photo=="") continue;
             echo "<img onClick='javascript:showPhoto(\"$photo\")' src='$photo' class='picrel clicker'/><br />";
         }
     }
