@@ -26,5 +26,5 @@ commity:
 >> daty w listach się nie zgadzają, zapisuj datę zawarcia znajomości
 >> poprawny kierunek potwierdzania zaproszenia - b do a, nie na odwrót
 >> refaktoruj na ludzkie predykaty
-28 routing bardziej ludzki
+>> routing bardziej ludzki
 >> destructive action confirm via js

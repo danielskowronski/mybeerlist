@@ -8,6 +8,7 @@ class Controller_BeerList extends Controller {
     }
     public function action_mylist()
     {
+        Helper_User::checkAuth($this);
         $this->redirect('beerlist/'.Auth::instance()->get_user()->username);
     }
     public function action_list()
@@ -42,7 +43,7 @@ class Controller_BeerList extends Controller {
         }
 
         $notPublicList = $userEntity->publicLevel<=0;
-        $userIsFriend = Helper_User::areFriends(Auth::instance()->get_user()->id, $id);
+        $userIsFriend = Auth::instance()->logged_in() && Helper_User::areFriends(Auth::instance()->get_user()->id, $id);
 
         if ($notPublicList && !$userIsFriend)
         {
