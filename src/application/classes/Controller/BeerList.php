@@ -39,7 +39,6 @@ class Controller_BeerList extends Controller {
         {
             $this->response = Request::factory('BeerEntry/list')->execute();
             return;
-            //$this->redirect('mylist');
         }
 
         $notPublicList = $userEntity->publicLevel<=0;
@@ -53,6 +52,9 @@ class Controller_BeerList extends Controller {
 
         $view = View::factory('beerlist/show');
         $view->beers = ORM::factory('BeerEntry')
+            ->where("userId","=",$id)
+            ->find_all();
+        $view->wantedbeers = ORM::factory('WantedBeerEntry')
             ->where("userId","=",$id)
             ->find_all();
         $view->userEntity = $userEntity;

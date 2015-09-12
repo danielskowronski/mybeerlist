@@ -7,9 +7,13 @@
     <li>Liczba logowań: <?= $user->logins; ?></li>
     <li>Ostatnie logowanie: <?= Date::fuzzy_span($user->last_login); ?></li>
     <li>Ustawienia publikowania:<br />
-
+        <strong>główna lista</strong><br />
         <?php foreach (Helper_PublicLevel::decodePublicLevel($user->publicLevel) as $key => $value): ?>
             <?= Helper_PublicLevel::translateRawPublicityName($key); ?>: <?= ($value===true) ? "&#10004" : "&#10006" ?><br />
+        <?php endforeach; ?>
+        <strong>lista życzeń</strong><br />
+        <?php foreach (Helper_PublicLevelOfWanted::decodePublicLevel($user->publicLevelOfWanted) as $key => $value): ?>
+            <?= Helper_PublicLevelOfWanted::translateRawPublicityName($key); ?>: <?= ($value===true) ? "&#10004" : "&#10006" ?><br />
         <?php endforeach; ?>
     </li>
 </ul>

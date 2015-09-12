@@ -17,6 +17,20 @@ ADD PRIMARY KEY (`id`);
 ALTER TABLE `beerentry`
 MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1 ;
 
+CREATE TABLE IF NOT EXISTS `wantedbeerentry` (
+  `id` int(11) NOT NULL,
+  `userId` int(11) NOT NULL,
+  `beerName` text CHARACTER SET utf8 NOT NULL,
+  `beerLink` text CHARACTER SET utf8 NOT NULL,
+  `notes` text CHARACTER SET utf8 NOT NULL
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci AUTO_INCREMENT=1 ;
+
+ALTER TABLE `wantedbeerentry`
+ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `wantedbeerentry`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1 ;
+
 
 ALTER TABLE `users` ADD `register_token` TEXT NOT NULL ;
 ALTER TABLE `users` ADD `reset_token` TEXT NOT NULL ;

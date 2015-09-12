@@ -90,6 +90,7 @@ class Controller_User extends Controller_Template {
         if(Helper_Request::isPost($this))
         {
             $_POST['publicLevel']=Helper_PublicLevel::encodePublicLevel($_POST['publicLevel']);
+            $_POST['publicLevelOfWanted']=Helper_PublicLevelOfWanted::encodePublicLevel($_POST['publicLevelOfWanted']);
             $userEntity->values($_POST); //not OOP due to hack above - TODO
             $userEntity->id = $uid;
             $userEntity->save();

@@ -8,31 +8,7 @@
         max-height: 75px;
     }
 </style>
-<script>
-    const beerListProviderURL = "/BeerDataProviderSearcher";
-
-    function queryBeers() {
-        var beerQuery=$("#beerQueryInput").val();
-        $("#beerSearchResults").html("<img src='/files/loader.gif' />");
-        $.get(
-            beerListProviderURL+"?name="+beerQuery,
-            function (data) {
-                var response = JSON.parse(data);
-                $("#beerSearchResults").html(""); //clear old results
-                response.forEach(function(elem){
-                    $("#beerSearchResults").append(
-                        "<li><a onClick='selectBeer(\""+elem["url"]+"\",\""+elem["name"]+"\")'>"+elem["name"]+"</a></li>"
-                    );
-                });
-            }
-        );
-    }
-    function selectBeer(url, name){
-        $("#beerQueryInput").val(name);
-        $("#beerUrl").val(url);
-        $("#beerSearchResults").html(""); //clear old results
-    }
-</script>
+<script src="/files/beerselector.js"></script>
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 <script>

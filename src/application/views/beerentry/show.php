@@ -7,11 +7,11 @@
 <style>
     .picrel{
         max-width: 300px;
-        max-width: 200px;
+        max-height: 200px;
     }
 </style>
 
-Nazwa piwa i link do ocen-piwo.pl: <a href="<?php echo HTML::chars($beer->beerLink); ?>"><?php echo HTML::chars($beer->beerName); ?></a><br />
+Nazwa piwa i link do ocen-piwo.pl: <?php if ($beer->beerLink=="") echo $beer->beerName; else echo HTML::anchor($beer->beerLink, $beer->beerName) ; ?><br />
 <?php $wypiteShown=false; if(!empty($beer->location)): ?>
     wypite w <em><?php echo HTML::chars($beer->location); $wypiteShown=true; ?></em>
 <?php endif; if(!empty($beer->companions)): ?>
@@ -22,7 +22,7 @@ Nazwa piwa i link do ocen-piwo.pl: <a href="<?php echo HTML::chars($beer->beerLi
     dnia <em><?php echo HTML::chars($beer->date); ?></em>.<br />
 Ocena dla tego rekordu to: <em><?php echo HTML::chars($beer->rating); ?></em>
 <?php endif; ?>.<br />
-Pic related:
+Pic related:<br />
 <?php
     $picrel = preg_split("/\s/", $beer->photosUrls);
     if (count($picrel)==0 )
@@ -31,7 +31,6 @@ Pic related:
     }
     else
     {
-        echo "<br />";
         foreach ($picrel as $photo) {
             if ($photo=="") continue;
             echo "<img onClick='javascript:showPhoto(\"$photo\")' src='$photo' class='picrel clicker'/><br />";

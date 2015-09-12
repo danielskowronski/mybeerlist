@@ -16,8 +16,10 @@ class Controller_BeerEntry extends Controller {
         $view->beers = ORM::factory('BeerEntry')
             ->where("userId","=",Auth::instance()->get_user()->id)
             ->find_all();
+        $view->wantedbeers = ORM::factory('WantedBeerEntry')
+            ->where("userId","=",Auth::instance()->get_user()->id)
+            ->find_all();
 
-        $view->debug=Auth::instance()->get_user()->id;
         $this->response->body($view);
     }
     public function action_edit()

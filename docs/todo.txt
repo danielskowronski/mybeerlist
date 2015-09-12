@@ -28,4 +28,8 @@ commity:
 >> refaktoruj na ludzkie predykaty
 >> routing bardziej ludzki
 >> destructive action confirm via js
-30 zabezpieczyć wszystkie user-inputy!
+>> zabezpieczyć wszystkie user-inputy!
+>> piwa planowane - zarządzanie
+>> piwa planowane - publiczne listowanie
+>> konwertowanie planowanego do wypitego
+34 views/beerlis/show.php - duplikujące się kwerendy na nagłówki i pola tabeli
