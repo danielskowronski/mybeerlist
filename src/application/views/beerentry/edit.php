@@ -5,8 +5,7 @@
         padding: 10px;
     }
     .picrel{
-        max-width: 300px;
-        max-width: 200px;
+        max-height: 75px;
     }
 </style>
 <script>
@@ -51,33 +50,33 @@
         $("#photosUrls").val($("#photosUrls").val().replace(url,""))
         $($($("img[src='"+url+"']")[0]).parent()).remove()
     }
-</script>
 
-<script>
+    // addPhoto
     $( document ).ready(function() {
         var form = document.getElementById('file-form');
         var fileSelect = document.getElementById('file-select');
         var uploadButton = document.getElementById('upload-button');
         form.onsubmit = function(event) {
             event.preventDefault();
-            uploadButton.innerHTML = 'Uploading...';
+            uploadButton.innerHTML = 'Przesyłanie...';
             var files = fileSelect.files;
             var formData = new FormData();
             var file = files[0];
             if (!file.type.match('image.*')) {
-                uploadButton.innerHTML = 'Not an image! Upload another file';
+                alert('To nie jest obrazek!');
+                uploadButton.innerHTML = '<span class="glyphicon glyphicon-cloud-upload"></span>Dodaj zdjęcie';
                 return;
             }
             formData.append('photo', file, file.name);
             var xhr = new XMLHttpRequest();
             xhr.open('POST', '/photo/upload', true);
             xhr.onload = function () {
-                if (xhr.status === 200) {
+                if (xhr.status === 200 && xhr.responseText!="ERROR") {
                     $("#photosUrls").val($("#photosUrls").val()+" /photos/"+xhr.responseText)
-                    $("#photos").html($("#photos").html()+"<span><img src='/photos/"+xhr.responseText+"'><a onClick='deletePhoto(\""+xhr.responseText+"\")'>Skasuj</a></span><br />")
-                    uploadButton.innerHTML = 'Upload';
+                    $("#photos").html($("#photos").html()+"<span><img class='picrel clicker' src='/photos/"+xhr.responseText+"'><a onClick='deletePhoto(\"/photos/"+xhr.responseText+"\")'><span class=\"glyphicon glyphicon-remove\"></span> Skasuj</a><br /></span>")
+                    uploadButton.innerHTML = '<span class="glyphicon glyphicon-cloud-upload"></span>Dodaj zdjęcie';
                 } else {
-                    alert('An error occurred!');
+                    alert('Wystąpił błąd');
                 }
             };
             xhr.send(formData);
@@ -110,7 +109,6 @@
 
 <?php echo Form::hidden('photosUrls', $beerentry->photosUrls, array("id"=>"photosUrls")); ?>
 
-
 <?php echo Form::label('notes', "Notatki"); ?><br />
 <?php echo Form::textarea('notes', $beerentry->notes, array('columns'=>'32', 'rows'=>'5')); ?><br />
 
@@ -119,27 +117,21 @@
 <?php echo Form::close(); ?>
 
 
-    <div id="photos">
-        <?php
-        $picrel = preg_split("/\s/", $beerentry->photosUrls);
-        if (count($picrel)==0)
-        {
-            echo "---<br />";
+<div id="photos">
+    <?php
+    $picrel = preg_split("/\s/", $beerentry->photosUrls);
+    if (count($picrel)!=0)
+    {
+        foreach ($picrel as $photo) {
+            if ($photo=="") continue;
+            echo "<span><img onClick='javascript:showPhoto(\"$photo\")' src='$photo' class='picrel clicker'/><a onClick='deletePhoto(\"$photo\")'><span class=\"glyphicon glyphicon-remove\"></span>Skasuj</a><br /></span>";
         }
-        else
-        {
-            echo "<br />";
-            foreach ($picrel as $photo) {
-                if ($photo=="") continue;
-                echo "<span><img onClick='javascript:showPhoto(\"$photo\")' src='$photo' class='picrel clicker'/><a onClick='deletePhoto(\"$photo\")'>Skasuj</a></span><br />";
-            }
-        }
-        ?></div>
-    <form id="file-form" action="/photo/upload" method="POST">
-        <input type="file" id="file-select" name="photos[]" multiple/>
-        <button type="submit" id="upload-button">Upload</button>
-    </form>
-    <br /><br />
-
+    }
+    ?></div>
+<br />
+<form id="file-form" action="/photo/upload" method="POST">
+    <input type="file" id="file-select" name="photo" style="display: inline"/>
+    <button type="submit" id="upload-button"><span class="glyphicon glyphicon-cloud-upload"></span>Dodaj zdjęcie</button>
+</form>
 
 <?php require(dirname(__FILE__)."/../_skel/footer.php"); ?>

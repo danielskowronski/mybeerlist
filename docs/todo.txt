@@ -2,7 +2,7 @@ commity:
 >> ustawienia usera działające -> >> dodaj zmianę username
 >> publikowanie list
 >> routes
-04 pliki
+>> pliki
 >> mailowa weryfikacja
 >> ludzkie ostylowanie (tabel głównie)
 >> znajomość - full disclosure
@@ -28,3 +28,4 @@ commity:
 >> refaktoruj na ludzkie predykaty
 >> routing bardziej ludzki
 >> destructive action confirm via js
+30 zabezpieczyć wszystkie user-inputy!

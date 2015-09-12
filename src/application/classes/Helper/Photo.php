@@ -2,6 +2,10 @@
 
 class Helper_Photo extends Controller
 {
+    /*
+        photo url format: /photos/__A<user id>B__<16 random chars>.jpg
+    */
+
     public static function isPhotoOwnedByUser($user, $photoUrl)
     {
         preg_match("/__A(.*)B__/", $photoUrl, $m);
